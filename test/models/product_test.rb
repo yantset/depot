@@ -25,7 +25,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test "Цена должна быть больше нуля" do
-    product = Product.new( title:       "Заголовок",
+    product = Product.new( title:       "Заголовок один",
                           description: "Описание",
                           image_url:   "zzz.jpg")
     product.price = -1
@@ -42,7 +42,7 @@ class ProductTest < ActiveSupport::TestCase
 
   def new_product(image_url)
     Product.new(
-      title: "Заголовок",
+      title: "Заголовок два",
       description: "Описание" ,
       price: 1,
       image_url: image_url
@@ -50,8 +50,7 @@ class ProductTest < ActiveSupport::TestCase
   end
 
   test "корректность ссылки" do
-    ok = %w{ fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg
-          http://a.b.c/x/y/z/fred.gif }
+    ok = %w{ fred.gif fred.jpg fred.png FRED.JPG FRED.Jpg http://a.b.c/x/y/z/fred.gif }
     bad = %w{ fred.doc fred.gif/more fred.gif.more }
 
     ok.each do |name|
@@ -73,6 +72,19 @@ class ProductTest < ActiveSupport::TestCase
 
     assert product.invalid?
     assert_equal ["has already been taken"], product.errors[:title]
+    # assert_equal [I18n.translate('activerecord.errors.messages.taken')], product.errors[:title]
+  end
+
+  test "длиная строка заголовка" do
+    product = Product.new(
+      title: "Кратко",
+      description: "wer",
+      price: 1,
+      image_url: "fred.gif"
+      )
+
+    assert product.invalid?
+    assert_equal ["is too short (minimum is 10 characters)"], product.errors[:title]
     # assert_equal [I18n.translate('activerecord.errors.messages.taken')], product.errors[:title]
   end
 end

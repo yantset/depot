@@ -10,6 +10,26 @@
 <!-- START_HIGHLIGHT -->
 <body class='<%= controller.controller_name %>'>
 <!-- END_HIGHLIGHT -->
-<%= yield %>
+	<div id="banner">
+		<%= image_tag("logo.png") %>
+		<%= @page_title || "Pragmatic Bookshelf" %>
+	</div>
+	<div id="columns">
+		<div id="side">
+			<ul>
+				<li><%= link_to("Home") %> </li>
+				<li><%= link_to("Questions") %> </li>
+				<li><%= link_to("News") %> </li>
+				<li><%= link_to("Contact") %> </li>
+			</ul>
+			<div id="current_time">
+				<%= Time.now %>
+			</div>
+		</div>
+	</div>
+	<div id="main">
+		<%= yield %>
+	</div>
+
 </body>
 </html>
